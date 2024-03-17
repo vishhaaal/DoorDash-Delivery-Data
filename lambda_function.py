@@ -15,4 +15,21 @@ def lambda_handler(event,context):
         obj = s3.get_object(Bucket=bucket, Key=key)
         df = pd.read_json(obj['Body'])
 
-    except:
+        filtered_record_df = df[df['status'] == ["delivered"]]
+        target_key = key.split('/')[-1]
+        target_key = 'filtered_'+ target_key
+        target_path = f'{target_bucket}/{target_key}'
+        s3.put_object(Body = filtered_record_df.to_json(), Bucket = target_bucket, Key = target_key)
+
+        sns.publish(TopicArn = sns_topic_arn, Message = 'Processing Successful')
+        return {
+            'statusCode' : 200,
+            'body' : json.dumps('Processing Successful')
+        }
+    
+    except Exception as e:
+        sns.publish(TopicArn = sns_topic_arn, Message = f'Processing Failed: {str(e)}')
+        return {
+            'statusCode' : 500,
+            'body' : json.dumps(f'Processing Failed: {str(e)}')
+        }
