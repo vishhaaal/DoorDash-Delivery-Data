@@ -12,7 +12,7 @@ phases:
     commands:
       - echo "Zipping deployment package"
       - cd package
-      - Compress-Archive -Path .\* -DestinationPath ../lambda_code_dep_zipped.zip
+      - zip -r ../lambda_code_dep_zipped.zip .
       - cd ..
 
   post_build:
@@ -22,3 +22,4 @@ phases:
       - echo "Updating Lambda function via S3..."
       - aws lambda update-function-code --function-name assignment-3-gds-de --s3-bucket lambda-builds-zip-gds-de --s3-key lambda_code_dep_zipped.zip
       - echo "Deployment complete!"
+
