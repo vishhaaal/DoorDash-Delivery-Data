@@ -1,19 +1,21 @@
 version: 0.2
+
 phases:
   install:
     runtime-versions:
       python: 3.10
     commands:
       - echo "Installing Dependencies..."
-      - pip install -r requirements.txt -t -package
-  built:
+      - pip install -r requirements.txt -t ./package
+
+  build:
     commands:
-      - echo "Zipping deployment paackage"
+      - echo "Zipping deployment package"
       - cd package
-      - Compress-Archive -Path .\* -DestinationPath ..\lambda_code_dep_zipped.zip
+      - Compress-Archive -Path .\* -DestinationPath ../lambda_code_dep_zipped.zip
       - cd ..
-      - Compress-Archive -Path .\lambda_function.py -Update -DestinationPath .\lambda_code_dep_zipped.zip
-  post_built:
+
+  post_build:
     commands:
       - echo "Uploading to S3..."
       - aws s3 cp lambda_code_dep_zipped.zip s3://lambda-builds-zip-gds-de/
