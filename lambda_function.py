@@ -4,8 +4,8 @@ import boto3
 
 s3 = boto3.client('s3')
 sns = boto3.client('sns')
-target_bucket = ''
-sns_topic_arn = ''
+target_bucket = 'doordash-target-zn-gds-de'
+sns_topic_arn = 'arn:aws:sns:ap-south-1:423736870603:assignmer-gds-de'
 
 def lambda_handler(event,context):
     try:
