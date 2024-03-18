@@ -14,7 +14,7 @@ phases:
       - cd package
       - zip -r ../lambda_code_dep_zipped.zip .
       - cd ..
-
+      - zip -g lambda_code_dep_zipped.zip lambda_function.py
   post_build:
     commands:
       - echo "Uploading to S3..."
