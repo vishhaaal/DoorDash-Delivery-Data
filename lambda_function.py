@@ -1,11 +1,12 @@
 import json
 import boto3
 import logging
+import pandas as pd 
 
 s3 = boto3.client('s3')
 sns = boto3.client('sns')
 target_bucket = 'doordash-target-zn-gds-de'
-sns_topic_arn = ''
+sns_topic_arn = 'arn:aws:sns:ap-south-1:423736870603:assignmer-gds-de'
 
 def lambda_handler(event, context):
     logger = logging.getLogger()
